@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How much of your week does admin steal?</title>
+  <meta name="description" content="Swipe through 10 everyday HR tasks. Get your HR profile and the hours you could win back. Takes about a minute.">
+
+  <!-- Open Graph. og:url / og:image must be absolute: replace YOUR-DOMAIN once this is deployed. -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="How much of your week does admin steal?">
+  <meta property="og:description" content="Swipe through 10 everyday HR tasks. Get your HR profile and the hours you could win back.">
+  <meta property="og:image" content="https://YOUR-DOMAIN/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://YOUR-DOMAIN/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml" href="assets/shapes-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="top">
+    <a href="https://shapes.co" class="top-logo" target="_blank" rel="noopener" aria-label="Shapes">
+      <img src="assets/shapes-logo.svg" alt="Shapes" width="78" height="20">
+    </a>
+  </header>
+
+  <main class="wrap">
+
+    <!-- 1. Intro -->
+    <section class="screen intro" id="intro">
+      <h1 class="intro-title" data-copy="intro.title"></h1>
+      <p class="intro-sub" data-copy="intro.subtitle"></p>
+      <!-- A peek at the game: fanned task cards (tapping starts) -->
+      <div class="fan" id="fan" aria-hidden="true"></div>
+      <button type="button" class="btn btn-dark btn-lg" id="startBtn" data-copy="intro.button"></button>
+      <p class="intro-time" data-copy="intro.time"></p>
+    </section>
+
+    <!-- 2. Company size -->
+    <section class="screen size" id="size" hidden>
+      <h2 class="size-q" data-copy="size.question"></h2>
+      <div class="size-options" id="sizeOptions"></div>
+    </section>
+
+    <!-- 3. Cards -->
+    <section class="screen play" id="play" hidden>
+      <div class="progress" aria-live="polite">
+        <div class="progress-bar"><span id="progressFill"></span></div>
+        <span class="progress-count" id="progressCount">1/10</span>
+      </div>
+      <p class="play-q" data-copy="play.question"></p>
+      <div class="stack" id="stack"></div>
+      <!-- "Me, manually" stays left and "It runs itself" right: swipe direction is physical -->
+      <div class="choices">
+        <button type="button" class="choice choice-manual" id="manualBtn">
+          <i class="ti ti-hand-finger" aria-hidden="true"></i><span data-copy="play.manualLabel"></span>
+        </button>
+        <button type="button" class="choice choice-auto" id="autoBtn">
+          <span data-copy="play.autoLabel"></span><i class="ti ti-sparkles" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. Result + 5. Lead form -->
+    <section class="screen result" id="result" hidden>
+      <div class="profile">
+        <p class="profile-kicker" data-copy="result.profileKicker"></p>
+        <h2 class="profile-name" id="profileName"></h2>
+        <p class="profile-desc" id="profileDesc"></p>
+      </div>
+
+      <div class="hours" id="hoursBox">
+        <p class="hours-line"><span data-copy="result.hoursBefore"></span></p>
+        <p class="hours-big"><span id="hoursNum"></span> <span class="hours-unit" data-copy="result.hoursAfter"></span></p>
+        <p class="hours-note" data-copy="result.hoursNote"></p>
+      </div>
+      <div class="hours hours-zero" id="zeroBox" hidden>
+        <p class="hours-zero-line" data-copy="result.zeroHours"></p>
+      </div>
+
+      <div class="teaser" id="teaser">
+        <ul class="teaser-list" id="teaserList"></ul>
+        <h3 class="teaser-title" data-copy="result.teaserTitle"></h3>
+        <p class="teaser-line" data-copy="result.teaserLine"></p>
+      </div>
+
+      <form class="lead" id="leadForm" novalidate>
+        <div class="field">
+          <label for="fName" data-copy="form.firstName"></label>
+          <input id="fName" name="firstName" type="text" autocomplete="given-name" required>
+          <p class="field-error" data-for="fName"></p>
+        </div>
+        <div class="field">
+          <label for="fEmail" data-copy="form.email"></label>
+          <input id="fEmail" name="email" type="email" autocomplete="email" inputmode="email" required>
+          <p class="field-error" data-for="fEmail"></p>
+        </div>
+        <div class="field">
+          <label for="fCompany" data-copy="form.company"></label>
+          <input id="fCompany" name="company" type="text" autocomplete="organization" required>
+          <p class="field-error" data-for="fCompany"></p>
+        </div>
+        <div class="field">
+          <label for="fHr" data-copy="form.hrSystem"></label>
+          <select id="fHr" name="hrSystem" required></select>
+          <p class="field-error" data-for="fHr"></p>
+        </div>
+        <button type="submit" class="btn btn-dark btn-lg btn-block" id="submitBtn" data-copy="form.button"></button>
+        <p class="lead-note" data-copy="form.privacyNote"></p>
+      </form>
+    </section>
+
+    <!-- 6. Full report -->
+    <section class="screen report" id="report" hidden>
+      <h2 class="report-title" data-copy="report.headline"></h2>
+      <p class="report-empty" id="reportEmpty" data-copy="report.noManual" hidden></p>
+      <ul class="report-list" id="reportList"></ul>
+
+      <div class="build">
+        <i class="ti ti-wand build-icon" aria-hidden="true"></i>
+        <h3 class="build-title" data-copy="report.buildTitle"></h3>
+        <p class="build-line" data-copy="report.buildLine"></p>
+      </div>
+
+      <a class="btn btn-dark btn-lg btn-block" id="demoBtn" target="_blank" rel="noopener" data-copy="report.demoButton"></a>
+      <button type="button" class="btn btn-ghost btn-block" id="againBtn" data-copy="report.againButton"></button>
+    </section>
+
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
